@@ -34,16 +34,22 @@ public class Order {
 
 	@Column(name = "order_date")
 	private LocalDate orderDate;
-	
+
+	@Column(name = "order_to_date")
+	private LocalDate orderToDate;
+
+	@Column(name = "order_from_date")
+	private LocalDate orderFromDate;
+
 	@Column(name = "created_by")
 	private String createdBy;
 
 	@Column(name = "updated_by")
 	private String updatedBy;
-	
+
 	@Column(name = "created_date")
 	private LocalDateTime createdDate;
-	
+
 	@Column(name = "updated_date")
 	private LocalDateTime updatedDate;
 
