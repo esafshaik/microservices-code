@@ -3,7 +3,10 @@ package com.cafeteria.order.service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
 import com.cafeteria.order.dto.OrderRequest;
 import com.cafeteria.order.model.Order;
 import com.cafeteria.order.model.OrderItem;
@@ -21,7 +24,13 @@ public class OrderService {
 
 	private final OrderItemRepository orderItemRepository;
 
-	public void createOrder(OrderRequest orderRequest) {
+	public Integer createOrder(OrderRequest orderRequest) {
+		
+		 RestTemplate restTemplate = new RestTemplate();
+		 
+		 String uri="http://localhost:8082/api/prod/calories";
+		 
+		 Integer result = null;
 		
 		if (orderRequest.getOrderType().equalsIgnoreCase("NEW")) {
 			
@@ -38,8 +47,11 @@ public class OrderService {
 						.orderId(orderNew.getOrderId())
 						.prodId(prodId)
 						.build();
+				
 				orderItemRepository.save(orderItem);
 			}
+			
+		    result = restTemplate.postForEntity(uri, orderRequest.getItems(), Integer.class).getBody();
 
 		} else if (orderRequest.getOrderType().equalsIgnoreCase("OLD")) {
 			
@@ -70,9 +82,21 @@ public class OrderService {
 												.build();
 				orderItemRepository.save(pldOrderItem);
 			}
+			
+			result = restTemplate.postForEntity(uri, orderRequest.getItems(), Integer.class).getBody();
 
 		} else {
 			throw new RuntimeException("Invalid Data!");
 		}
+		return result;
+	}
+
+	public Integer findTotalCalories(OrderRequest orderRequest) {
+		return 0;
+		
+	}
+
+	public void deleteOrder(Integer orderId) {
+
 	}
 }

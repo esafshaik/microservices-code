@@ -38,4 +38,9 @@ public class ProductService {
 		return ProductResponse.builder().id(product.getId()).name(product.getName())
 				.description(product.getDescription()).build();
 	}
+
+	public Integer getTotalCalories(List<String> items) {
+		// In progress..... 
+		return null;
+	}
 }
